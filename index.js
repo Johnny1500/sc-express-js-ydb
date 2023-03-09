@@ -1,10 +1,7 @@
-const express = require("express");
-const fetch = require("node-fetch");
-const { Driver, MetadataAuthService } = require("ydb-sdk");
+import fetch from "node-fetch";
+import express from "express";
 
-console.log("test log");
-console.log("starting...");
-
+console.log("start");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -24,31 +21,10 @@ async function getToken(event) {
   };
 }
 
-const endpoint = "grpcs://ydb.serverless.yandexcloud.net:2135";
-const database = "/ru-central1/b1g6i0mgtrt63nhpbko3/etnc9qvcjdtua52m6nfn";
-const authService = getToken();
+const Authtoken = await getToken();
 
-console.log(`authService ${authService}`);
-console.log(`authService stringify ${JSON.stringify(authService)}`);
-
-const driver = new Driver({
-  endpoint,
-  database,
-  authService: authService["token"],
-});
-const timeout = 10000;
-
-if (!(await driver.ready(timeout))) {
-  console.log(`Driver has not become ready in ${timeout}ms!`);
-  process.exit(1);
-}
-
-console.log(`driver ${JSON.stringify(driver)}`);
-
-const session = await driver.tableClient.withSession(
-  async (session) => session
-);
-console.log(`session ${session.sessionId}`);
+console.log(`Authtoken ${JSON.stringify(Authtoken)}`);
+// console.log(`token ${JSON.stringify(Authtoken["token"])}`);
 
 console.log("end");
 

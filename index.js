@@ -22,8 +22,10 @@ async function getToken(event) {
 }
 
 const accessToken = await getToken();
-const endpoint = "grpcs://ydb.serverless.yandexcloud.net:2135";
-const database = "/ru-central1/b1g6i0mgtrt63nhpbko3/etnc9qvcjdtua52m6nfn";
+const endpoint = process.env.ENDPOINT;
+console.log('endpoint', endpoint);
+const database = process.env.DATABASE;
+console.log('database', database);
 
 console.log(`accessToken ${accessToken}`);
 
